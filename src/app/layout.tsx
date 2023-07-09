@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
-import { Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google'
+
+import AuthProvider from '@/components/Providers/AuthProvider'
 
 import '@/styles/globals.css'
 
@@ -11,13 +13,15 @@ export const metadata = {
 	title: 'FSW Club'
 }
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800', '900'] })
 
 export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="pt-br">
-			<body className={inter.className}>
-				{children}
+			<body className={poppins.className}>
+				<AuthProvider>
+					{children}
+				</AuthProvider>
 			</body>
 		</html>
 	)
