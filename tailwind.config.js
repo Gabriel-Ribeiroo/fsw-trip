@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+			backgroundImage: {
+				'search-area': 'url(/world-map.png)'
+			},
+			
 			colors: {
 				'primary': '#590BD8',
 				'primary-lighter': '#DDD5EA',
