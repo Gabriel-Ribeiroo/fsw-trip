@@ -1,7 +1,8 @@
 'use client'
 
-import DateInput from '@/components/inputs/DateInput'
 import TextInput from '@/components/inputs/TextInput'
+import DateInput from '@/components/inputs/DateInput'
+import Button from '@/components/Button'
 
 export default function TripSearch() {
 	return (
@@ -12,6 +13,8 @@ export default function TripSearch() {
 				<DateInput placeholderText="Primeira Data" onChange={() => {}} />	
 				<TextInput placeholder="Orçamento" className="w-full" />
 			</div>
+
+			<Button>Buscar</Button>
 		</form>
 	)
 }
