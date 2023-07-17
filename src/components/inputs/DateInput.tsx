@@ -16,8 +16,8 @@ registerLocale('pt-BR', ptBR)
 
 function DateInput({ hasError = false, className, ...rest }: Props, ref: Ref<DatePicker>) {
 	const inputClassName = twMerge(
-		'w-full rounded-lg border border-gray-400 p-2 text-sm focus:outline-none transition duration-200',
-		hasError ? 'border-red-500' : 'focus:ring focus:ring-primary',
+		'w-full rounded-lg border border-gray-400 p-2 text-sm outline-none transition duration-200',
+		hasError ? 'border-red-500' : 'focus:ring-1 focus:ring-primary',
 		className
 	)
 	

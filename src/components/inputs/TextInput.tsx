@@ -8,8 +8,8 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 function TextInput({ hasError = false, className, ...rest }: Props, ref: Ref<HTMLInputElement>) {
 	const inputClassName = twMerge(
-		'rounded-lg border border-gray-400 p-2 text-sm focus:outline-none w-0',
-		hasError ? 'border-red-500' : 'focus:ring focus:ring-primary',
+		'rounded-lg border border-gray-400 p-2 text-sm outline-none transition duration-200',
+		hasError ? 'border-red-500' : 'focus:ring-1 focus:ring-primary',
 		className,
 	)
 	
