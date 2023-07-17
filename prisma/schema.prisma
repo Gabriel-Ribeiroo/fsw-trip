@@ -20,6 +20,8 @@ model Trip {
   pricePerDay  Decimal           @db.Decimal(8, 2)
   maxGuests    Int
   reservations TripReservation[]
+  countryCode  String
+  recommended  Boolean           @default(false)
 }
 
 model TripReservation {
@@ -46,7 +48,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
   expires_at        Int?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
