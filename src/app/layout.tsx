@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Poppins } from 'next/font/google'
 
 import Header from '@/components/header/Header'
-import AuthProvider from '@/components/providers/AuthProvider'
+import AuthProvider from '@/providers/AuthProvider'
 
 import '@/styles/globals.css'
 
