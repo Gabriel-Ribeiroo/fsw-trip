@@ -2,6 +2,7 @@
 
 import TextInput from '@/components/inputs/TextInput'
 import DateInput from '@/components/inputs/DateInput'
+import CurrencyInput from '@/components/inputs/CurrencyInput/CurrencyInput'
 import Button from '@/components/Button'
 
 export default function TripSearch() {
@@ -11,7 +12,7 @@ export default function TripSearch() {
 			
 			<div className="grid grid-cols-2 gap-4">
 				<DateInput placeholderText="Primeira Data" onChange={() => {}} />	
-				<TextInput placeholder="Orçamento" className="w-full" />
+				<CurrencyInput placeholder="Orçamento" className="w-full" />
 			</div>
 
 			<Button>Buscar</Button>
