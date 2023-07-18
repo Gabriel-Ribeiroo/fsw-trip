@@ -2,10 +2,11 @@ import Image from 'next/image'
 
 import TripReservation from './components/TripReservation'
 import TripDescription from './components/TripDescription'
+import TripHighlights from './components/TripHighlights'
+import TripLocation from './components/TripLocation'
 
 import { prisma } from '@/scripts/prisma'
 import ReactCountryFlag from 'react-country-flag'
-import TripHighlights from './components/TripHighlights'
 
 interface Props {
 	params: {
@@ -50,6 +51,7 @@ export default async function TripDetails({ params: { id } }: Props) {
 					<TripReservation trip={trip} />
 					<TripDescription description={trip.description} />
 					<TripHighlights highlights={trip.highlights} />
+					<TripLocation location={trip.location} />
 				</div>
 		</main>
 	)
