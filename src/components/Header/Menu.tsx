@@ -34,7 +34,7 @@ export default function Menu({ isMenuOpen, handleMenuClick }: Props) {
 			{isMenuOpen && (
 				<button 
 					onClick={handleSignOutClick}
-					className="absolute top-12 left-0 shadow p-1 rounded-full
+					className="absolute top-12 left-0 shadow p-1.5 rounded-md z-50
 					w-full text-sm font-semibold text-primary bg-white shadow-zinc-400"
 				>
 					Logout
