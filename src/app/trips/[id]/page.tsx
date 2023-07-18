@@ -49,7 +49,7 @@ export default async function TripDetails({ params: { id } }: Props) {
 
 					<TripReservation trip={trip} />
 					<TripDescription description={trip.description} />
-					<TripHighlights trip={trip} />
+					<TripHighlights highlights={trip.highlights} />
 				</div>
 		</main>
 	)
