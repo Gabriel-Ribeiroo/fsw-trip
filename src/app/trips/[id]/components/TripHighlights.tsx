@@ -8,7 +8,7 @@ interface Props {
 
 export default function TripHighlights({ trip: { highlights, id } }: Props) {
 	return (
-		<div className="flex flex-col gap-2">
+		<section className="flex flex-col gap-2">
 			<h2 className="font-semibold text-primary-darker text-xl">Destaques</h2>
 
 			<div className="grid grid-cols-1 gap-y-3">
@@ -19,6 +19,6 @@ export default function TripHighlights({ trip: { highlights, id } }: Props) {
 					</div>
 				))}
 			</div>
-		</div>
+		</section>
 	)
 }
