@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Poppins } from 'next/font/google'
 
 import Header from '@/components/header/Header'
+import Footer from '@/components/Footer'
 import AuthProvider from '@/providers/AuthProvider'
 
 import '@/styles/globals.css'
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: Props) {
 				<AuthProvider>
 					<Header />
 					{children}
+					<Footer />
 				</AuthProvider>
 			</body>
 		</html>
