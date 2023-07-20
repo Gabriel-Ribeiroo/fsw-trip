@@ -16,14 +16,36 @@ interface Props {
 }
 
 export default function TripReservation({ trip }: Props) {
-	const { register, handleSubmit, control, watch, formState: { errors } } = useForm<Form>({
+	const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<Form>({
 		resolver: zodResolver(schema)
 	})
 
 	const startDate = watch('startDate')
 	const endDate = watch('endDate')
 
-	const onSubmit = (data: Form) => {}
+	const onSubmit = async (data: Form) => {
+		const request = await fetch('http://localhost:3000/api/trip/check', {
+			method: 'POST',
+			body: JSON.stringify({
+				startDate: data.startDate,
+				endDate: data.endDate,
+				trip: trip 
+			})
+		})
+
+		const response = await request.json()
+
+		if (response.error?.code === 'INVALID_START_DATE') 
+			setError('startDate', { message: 'Data inválida.' })
+
+		if (response.error?.code === 'INVALID_END_DATE')
+			setError('endDate', { message: 'Data inválida.' })
+
+		if (response.error?.code === 'TRIP_ALREADY_RESERVED') {
+			setError('startDate', { message: 'Data já reservada.' })
+			setError('endDate', { message: 'Data já reservada.' })
+		}
+	}
 	
 	return (
 		<form className="flex flex-col gap-2 pb-10 border-b border-gray-400">
@@ -38,8 +60,8 @@ export default function TripReservation({ trip }: Props) {
 								onChange={field.onChange}
 								onBlur={field.onBlur}
 								selected={field.value}
-								minDate={trip.startDate}
-								maxDate={endDate ?? trip.endDate}
+								// minDate={trip.startDate}
+								// maxDate={endDate ?? trip.endDate}
 								hasError={!!errors.startDate}
 							/>
 						}
@@ -72,7 +94,6 @@ export default function TripReservation({ trip }: Props) {
 			<div className="flex flex-col gap-0.5">
 				<TextInput  
 					placeholder={`Número de Hóspedes (max: ${trip.maxGuests})`} 
-					// type="number" 
 					hasError={!!errors.guests}
 					{...register('guests')}
 				/>
