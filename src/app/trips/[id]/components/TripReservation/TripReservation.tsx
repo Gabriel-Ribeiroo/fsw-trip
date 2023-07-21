@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import Button from '@/components/Button'
 import DateInput from '@/components/inputs/DateInput'
 import TextInput from '@/components/inputs/TextInput'
@@ -20,6 +22,8 @@ export default function TripReservation({ trip }: Props) {
 		resolver: zodResolver(schema)
 	})
 
+	const router = useRouter() 
+
 	const startDate = watch('startDate')
 	const endDate = watch('endDate')
 
@@ -29,22 +33,26 @@ export default function TripReservation({ trip }: Props) {
 			body: JSON.stringify({
 				startDate: data.startDate,
 				endDate: data.endDate,
-				trip: trip 
+				tripId: trip.id
 			})
 		})
 
 		const response = await request.json()
 
 		if (response.error?.code === 'INVALID_START_DATE') 
-			setError('startDate', { message: 'Data inválida.' })
+			return setError('startDate', { message: 'Data inválida.' })
 
 		if (response.error?.code === 'INVALID_END_DATE')
-			setError('endDate', { message: 'Data inválida.' })
+			return setError('endDate', { message: 'Data inválida.' })
 
 		if (response.error?.code === 'TRIP_ALREADY_RESERVED') {
 			setError('startDate', { message: 'Data já reservada.' })
-			setError('endDate', { message: 'Data já reservada.' })
+			return setError('endDate', { message: 'Data já reservada.' })
 		}
+
+		router.push(`
+			/trips/${trip.id}/confirmation?startDate=${data.startDate.toISOString()}&endDate=${data.endDate.toISOString()}&guests=${data.guests}`
+		)
 	}
 	
 	return (
@@ -60,8 +68,8 @@ export default function TripReservation({ trip }: Props) {
 								onChange={field.onChange}
 								onBlur={field.onBlur}
 								selected={field.value}
-								// minDate={trip.startDate}
-								// maxDate={endDate ?? trip.endDate}
+								minDate={trip.startDate}
+								maxDate={endDate ?? trip.endDate}
 								hasError={!!errors.startDate}
 							/>
 						}
