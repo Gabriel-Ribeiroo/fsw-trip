@@ -1,13 +1,15 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import Button from '@/components/Button'
 
-import { Trip } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import { format } from 'date-fns'
+import { Trip } from '@prisma/client'
 import ReactCountryFlag from 'react-country-flag'
 import ptBR from 'date-fns/locale/pt-BR'
 
@@ -21,10 +23,19 @@ export default function TripConfirmation({ params: { id } }: Props) {
 	const [trip, setTrip] = useState<Trip | null>(null)
 	const [totalPrice, setTotalPrice] = useState<number>(0)
 
+	const router = useRouter()
+
+	const { status } = useSession()
+
 	const searchParams = useSearchParams()
 
 	const startDate = new Date(searchParams.get('startDate') as string)
 	const endDate = new Date(searchParams.get('endDate') as string) 
+
+	useEffect(() => {
+		if (status === 'unauthenticated')
+			router.push('/')
+	}, [status])
 
 	useEffect(() => {
 		const getTrip = async () => {
