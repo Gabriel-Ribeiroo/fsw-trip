@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -10,8 +9,8 @@ import Button from '@/components/Button'
 import { useSession } from 'next-auth/react'
 import { format } from 'date-fns'
 import { Trip } from '@prisma/client'
-import ReactCountryFlag from 'react-country-flag'
 import ptBR from 'date-fns/locale/pt-BR'
+import Card from './components/Card'
 
 interface Props {
 	params: {
@@ -49,6 +48,9 @@ export default function TripConfirmation({ params: { id } }: Props) {
 			})
 
 			const response = await request.json()
+
+			if (response.error)
+				return router.push('/')
 			
 			setTrip(response.trip)
 			setTotalPrice(response.totalPrice)
@@ -63,29 +65,7 @@ export default function TripConfirmation({ params: { id } }: Props) {
 		<main className="flex flex-col gap-2 container mx-auto p-2 flex-1">
 			<h1 className="font-semibold text-xl font-primary-darker">Sua viagem</h1>
 
-			<div className="border p-3.5 border-primary-lighter rounded-lg shadow-lg">
-				<div className="flex items-center gap-3 pb-6 border-b border-gray-400">
-					<div className="relative h-[6.563rem] w-[7.813rem]">
-						<Image src={trip.coverImage} alt={trip.name} fill className="object-cover rounded-lg" />
-					</div>
-
-					<div className="flex flex-col gap-1.5">
-						<h2 className="font-semibold text-xl text-primary-darker">{trip.name}</h2>
-
-						<div className="flex gap-1.5">
-							<ReactCountryFlag countryCode={trip.countryCode} svg />
-							<p className="text-xs underline text-gray-400">{trip.location}</p>
-						</div>
-					</div>
-				</div>
-
-				<h3 className="font-semibold text-lg text-primary-darker mt-3">Informações sobre o preço</h3>
-
-				<div className="flex justify-between">
-					<p className="font-medium text-primary-darker">Total: </p>
-					<p className="font-medium text-primary-darker">R$ {totalPrice}</p>
-				</div>
-			</div>
+			<Card trip={trip} totalPrice={totalPrice} />
 
 			<div className="flex flex-col gap-5 text-primary-darker">
 				<div>
