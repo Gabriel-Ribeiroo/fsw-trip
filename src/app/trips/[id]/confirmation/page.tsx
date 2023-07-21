@@ -49,7 +49,7 @@ export default function TripConfirmation({ params: { id } }: Props) {
 	if(!trip) return null 
 	
 	return (
-		<main className="flex flex-col gap-2 container mx-auto p-2">
+		<main className="flex flex-col gap-2 container mx-auto p-2 flex-1">
 			<h1 className="font-semibold text-xl font-primary-darker">Sua viagem</h1>
 
 			<div className="border p-3.5 border-primary-lighter rounded-lg shadow-lg">
