@@ -3,7 +3,8 @@ import { Poppins } from 'next/font/google'
 
 import Header from '@/components/header/Header'
 import Footer from '@/components/Footer'
-import AuthProvider from '@/providers/AuthProvider'
+
+import Providers from '@/providers/Providers'
 
 import '@/styles/globals.css'
 
@@ -21,13 +22,13 @@ export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="pt-br">
 			<body className={poppins.className}>
-				<AuthProvider>
+				<Providers>
 					<div className="flex flex-col min-h-screen">
 						<Header />
 						{children}
 						<Footer />
 					</div>
-				</AuthProvider>
+				</Providers>
 			</body>
 		</html>
 	)
