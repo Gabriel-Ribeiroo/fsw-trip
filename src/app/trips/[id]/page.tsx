@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import TripReservation from './components/TripReservation/TripReservation'
+import TripReservation from './components/TripReservation'
 import TripDescription from './components/TripDescription'
 import TripHighlights from './components/TripHighlights'
 import TripLocation from './components/TripLocation'

@@ -10,7 +10,7 @@ import ErrorMessage from '@/components/ErrorMessage'
 import { Trip } from '@prisma/client'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import schema, { Form } from './schema'
+import schema, { Form } from '@/schemas/reservation'
 import { calcReservationTotalPrice } from '@/utils/reservation'
 
 interface Props {

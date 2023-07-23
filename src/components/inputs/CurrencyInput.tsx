@@ -4,7 +4,7 @@ import { useState, InputHTMLAttributes, ChangeEvent, FocusEvent } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 
-import { maskCurrencyOnBlur, maskCurrencyOnChange } from './mask' 
+import { maskCurrencyOnBlur, maskCurrencyOnChange } from '@/masks/currency' 
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	hasError?: boolean

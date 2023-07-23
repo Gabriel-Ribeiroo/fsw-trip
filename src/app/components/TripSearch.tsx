@@ -2,7 +2,7 @@
 
 import TextInput from '@/components/inputs/TextInput'
 import DateInput from '@/components/inputs/DateInput'
-import CurrencyInput from '@/components/inputs/CurrencyInput/CurrencyInput'
+import CurrencyInput from '@/components/inputs/CurrencyInput'
 import Button from '@/components/Button'
 
 export default function TripSearch() {
