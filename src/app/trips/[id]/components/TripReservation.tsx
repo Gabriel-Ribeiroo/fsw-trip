@@ -10,7 +10,7 @@ import ErrorMessage from '@/components/ErrorMessage'
 import { Trip } from '@prisma/client'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import schema, { Form } from '@/schemas/reservation'
+import createDynamicSchema, { Form } from '@/schemas/reservation'
 import { calcReservationTotalPrice } from '@/utils/reservation'
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 
 export default function TripReservation({ trip }: Props) {
 	const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<Form>({
-		resolver: zodResolver(schema)
+		resolver: zodResolver(createDynamicSchema(trip.maxGuests)),
 	})
 
 	const router = useRouter() 
@@ -69,7 +69,7 @@ export default function TripReservation({ trip }: Props) {
 								onBlur={field.onBlur}
 								selected={field.value}
 								minDate={trip.startDate}
-								maxDate={endDate ?? trip.endDate}
+								maxDate={trip.endDate}
 								hasError={!!errors.startDate}
 							/>
 						}
@@ -101,9 +101,10 @@ export default function TripReservation({ trip }: Props) {
 
 			<div className="flex flex-col gap-0.5">
 				<TextInput  
+					type="number"
 					placeholder={`Número de Hóspedes (max: ${trip.maxGuests})`} 
 					hasError={!!errors.guests}
-					{...register('guests')}
+					{...register('guests', { valueAsNumber: true })}
 				/>
 
 				{!!errors.guests?.message && <ErrorMessage message={errors.guests.message} />}
