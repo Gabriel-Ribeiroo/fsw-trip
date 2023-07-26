@@ -1,43 +1,52 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
 
-import { signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 import { AiOutlineMenu } from 'react-icons/ai'
+import { HiOutlineUserCircle } from 'react-icons/hi'
 
-interface Props {
-	isMenuOpen: boolean 
-	handleMenuClick: () => void 
-}
+export default function Menu() {
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-export default function Menu({ isMenuOpen, handleMenuClick }: Props) {
-	const { data } = useSession()
+	const { status, data } = useSession()
+	
+	const handleMenuClick = () => setIsMenuOpen(prevState => !prevState)
 
+	const handleSignInClick = () => signIn()
 	const handleSignOutClick = () => signOut()
 	
 	return (
 		<div
 			onClick={handleMenuClick}
-			className="flex gap-3 items-center relative p-1.5 border border-gray-400 rounded-3xl cursor-pointer"
+			className="flex gap-3 items-center relative p-1.5 border-2 border-gray-500 rounded-3xl cursor-pointer"
 		>
 			<AiOutlineMenu size={18} />
 
-			<Image 
-				src={data!.user!.image!} 
-				alt={data!.user!.name!} 
-				width={30} 
-				height={30} 
-				className="rounded-full" 
-			/>
+			{status === 'authenticated' && (
+				<Image 
+					src={data!.user!.image!} 
+					alt={data!.user!.name!} 
+					width={30} 
+					height={30} 
+					className="rounded-full" 
+				/>
+			)}
+
+			{status === 'unauthenticated' && (
+				<HiOutlineUserCircle size={28} className="rounded-full" />
+			)}
 
 			{isMenuOpen && (
 				<button 
-					onClick={handleSignOutClick}
+					onClick={status === 'authenticated' ? handleSignOutClick : handleSignInClick}
 					className="absolute top-12 left-0 shadow p-1.5 rounded-md z-50
 					w-full text-sm font-semibold text-primary bg-white shadow-zinc-400"
 				>
-					Logout
+					{status === 'authenticated' && 'Logout'}
+					{status === 'unauthenticated' && 'Login'}
 				</button>
 			)}
 		</div>
