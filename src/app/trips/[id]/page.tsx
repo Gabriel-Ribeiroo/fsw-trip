@@ -6,7 +6,7 @@ import TripHighlights from './components/TripHighlights'
 import TripLocation from './components/TripLocation'
 
 import { prisma } from '@/scripts/prisma'
-import ReactCountryFlag from 'react-country-flag'
+import Country from '@/components/Country'
 
 interface Props {
 	params: {
@@ -37,10 +37,7 @@ export default async function TripDetails({ params: { id } }: Props) {
 					<section className="flex flex-col gap-1">
 						<h1 className="font-semibold text-xl text-primary-darker">{trip.name}</h1>
 
-						<div className="flex items-center gap-1">
-							<ReactCountryFlag countryCode={trip.countryCode} svg />
-							<p className="text-xs underline text-dark">{trip.location}</p>
-						</div>
+						<Country code={trip.countryCode} location={trip.location} />
 
 						<p className="text-xs text-dark">
 							<span className="text-primary mr-1 font-medium">R$ {trip.pricePerDay.toString()}</span>
