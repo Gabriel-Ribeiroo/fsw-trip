@@ -33,11 +33,22 @@ export default function TripReservation({ trip }: Props) {
 			body: JSON.stringify({
 				startDate: data.startDate,
 				endDate: data.endDate,
-				tripId: trip.id
+				tripId: trip.id,
+				guests: data.guests
 			})
 		})
 
 		const response = await request.json()
+
+		if (response.error?.code === 'GUESTS_EXCEED_LIMIT')
+			return setError('guests', { message: 'Limite de convidados excedido.' })
+
+		if (response.error?.code === 'INVALID_DATES')
+			return setError('startDate', { message: 'Data inicial maior do que final.' })
+
+
+		if (response.error?.code === 'GUESTS_LESS_THAN_ONE')
+			return setError('guests', { message: 'É necessário ao menos 1 hóspede' })
 
 		if (response.error?.code === 'INVALID_START_DATE') 
 			return setError('startDate', { message: 'Data inválida.' })
@@ -51,8 +62,8 @@ export default function TripReservation({ trip }: Props) {
 		}
 
 		router.push(`
-			/trips/${trip.id}/confirmation?startDate=${data.startDate.toISOString()}&endDate=${data.endDate.toISOString()}&guests=${data.guests}`
-		)
+			/trips/${trip.id}/confirmation?startDate=${data.startDate.toISOString()}&endDate=${data.endDate.toISOString()}&guests=${data.guests}
+		`)
 	}
 	
 	return (

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { prisma } from '@/scripts/prisma'
 import { isBefore, isAfter } from 'date-fns'
@@ -8,10 +8,13 @@ interface RequestProps {
 	tripId: string  
 	startDate: string 
 	endDate: string
+	guests: number 
 }
 
-export async function POST(request: Request) {
-	const { tripId, endDate, startDate } = await request.json() as RequestProps
+export async function POST(request: NextRequest) {
+	const { tripId, endDate, startDate, guests } = await request.json() as RequestProps
+
+	console.log(typeof guests)
 
 	const convertedStartDate = new Date(startDate)
 	const convertedEndDate = new Date(endDate)
@@ -22,9 +25,18 @@ export async function POST(request: Request) {
 		}
 	 })
 
-	 if (!trip)
+	if (!trip)
 	 	return NextResponse.json({ error: { code: 'TRIP_NOT_FOUND' } })
 
+	if (guests > trip.maxGuests)
+		return NextResponse.json({ error: { code: 'GUESTS_EXCEED_LIMIT' } })
+
+	if (convertedStartDate > convertedEndDate)
+	 return NextResponse.json({ error: { code: 'INVALID_DATES' } })
+
+	if (guests <= 0)
+	 	return NextResponse.json({ error: { code: 'GUESTS_LESS_THAN_ONE' } })
+ 
 	if (isBefore(convertedStartDate, new Date(trip.startDate))) 
 		return NextResponse.json({ error: { code: 'INVALID_START_DATE' } })
 
