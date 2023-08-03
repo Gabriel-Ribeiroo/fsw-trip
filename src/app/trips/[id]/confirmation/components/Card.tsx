@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { Trip } from '@prisma/client'
-import ReactCountryFlag from 'react-country-flag'
+import Country from '@/components/Country'
 
 interface Props {
 	trip: Trip
@@ -19,10 +19,7 @@ export default function Card({ trip, totalPrice }: Props) {
 				<div className="flex flex-col gap-1.5">
 					<h2 className="font-semibold text-xl text-primary-darker">{trip.name}</h2>
 
-					<div className="flex gap-1.5">
-						<ReactCountryFlag countryCode={trip.countryCode} svg />
-						<p className="text-xs underline text-gray-400">{trip.location}</p>
-					</div>
+					<Country location={trip.location} code={trip.countryCode} />
 				</div>
 			</div>
 
