@@ -1,9 +1,10 @@
 'use client'
 
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 import { tv, type VariantProps } from 'tailwind-variants'
+import { Slot } from '@radix-ui/react-slot'
 
 const button = tv({
 	base: 'rounded-lg py-1.5 px-2 font-medium',
@@ -17,19 +18,20 @@ const button = tv({
 	}
 })
 
-type ButtonVariants = VariantProps<typeof button> 
-
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonVariants {
-	children: ReactNode 
+interface Props 
+	extends ButtonHTMLAttributes<HTMLButtonElement>, 
+		VariantProps<typeof button> {
+	asChild?: boolean
 }
 
-export default function Button({ children, className, variant = 'default', ...rest }: Props) {
+export default function 
+Button({ className, asChild = false, variant = 'default', ...rest }: Props) {
+	const Comp = asChild ? Slot : 'button'
+	
 	return (
-		<button
+		<Comp
 			className={twMerge(button({ variant }), className)}
 			{...rest}
-		>
-			{children}
-		</button>
+		/>
 	)
 }
