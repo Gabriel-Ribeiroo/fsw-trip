@@ -8,6 +8,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 import { AiOutlineMenu } from 'react-icons/ai'
 import { HiOutlineUserCircle } from 'react-icons/hi'
+import { twMerge } from 'tailwind-merge'
 
 export default function Menu() {
 	const [isOpen, setIsOpen] = useState(false)
@@ -45,7 +46,7 @@ export default function Menu() {
 					alt={data!.user!.name!} 
 					width={30} 
 					height={30} 
-					className="rounded-full" 
+					className="rounded-full select-none" 
 				/>
 			)}
 
@@ -53,34 +54,36 @@ export default function Menu() {
 				<HiOutlineUserCircle size={30} className="rounded-full" />
 			)}
 
-			{isOpen && (
-				<nav 
-					onClick={(event) => event.stopPropagation()}
-					className="absolute top-12 -left-32 shadow rounded-md z-50 w-48
-					text-sm font-semibold text-primary bg-white shadow-zinc-400 p-1.5"
-					ref={dropdownRef}
-				>
-					<ul className="flex flex-col">
-						<li>
-								<button 
-									onClick={status === 'authenticated' ? handleSignOutClick : handleSignInClick}
-									className="w-full text-start p-1 hover:bg-gray-200 border-radius rounded"
-								>
-									{status === 'authenticated' && 'Logout'}
-									{status === 'unauthenticated' && 'Login'}
-								</button>
-						</li>
+			<nav 
+				ref={dropdownRef}
+				onClick={(event) => event.stopPropagation()}
+				className={twMerge(
+					`absolute top-12 -left-32 shadow rounded-md w-48
+					text-sm font-semibold transition-all duration-75
+					shadow-zinc-400 p-1.5 text-primary bg-white z-50`,
+					isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+				)}
+			>
+				<ul className="flex flex-col">
+					<li>
+						<button 
+							onClick={status === 'authenticated' ? handleSignOutClick : handleSignInClick}
+							className="w-full text-start p-1 hover:bg-gray-200 border-radius rounded"
+						>
+							{status === 'authenticated' && 'Logout'}
+							{status === 'unauthenticated' && 'Login'}
+						</button>
+					</li>
 
-						{status === 'authenticated' && (
-							<li>
-								<Link href="/my-trips" className="w-full block p-1 hover:bg-gray-200 border-radius rounded">
-									Minhas viagens
-								</Link>
-							</li>
-						)}
-					</ul>
-				</nav>
-			)}
+					{status === 'authenticated' && (
+						<li>
+							<Link href="/my-trips" className="w-full block p-1 border-radius rounded hover:bg-gray-200">
+								Minhas viagens
+							</Link>
+						</li>
+					)}
+				</ul>
+			</nav>
 		</div>
 	)
 }
