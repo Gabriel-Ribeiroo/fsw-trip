@@ -1,44 +1,43 @@
 'use client'
 
-import { useState, InputHTMLAttributes, ChangeEvent, FocusEvent } from 'react'
+import { forwardRef, type Ref, type ChangeEvent, type InputHTMLAttributes } from 'react'
 
 import { twMerge } from 'tailwind-merge'
+import * as mask from '@/masks/currency'
 
-import { maskCurrencyOnBlur, maskCurrencyOnChange } from '@/masks/currency' 
-
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
-	hasError?: boolean
+interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+	hasError?: boolean  
+	value: string | undefined
+	onChange: (value: string) => void 
 }
 
-export default function CurrencyInput({ hasError = false, className, ...rest }: Props) {
-	const [inputData, setInputData] = useState('') 
-
+function 
+CurrencyInput({ onChange, value, className, hasError = false, ...rest }: Props, ref: Ref<HTMLInputElement>) {
 	const inputClassName = twMerge(
-		'rounded-lg w-0 p-2 transition duration-200 text-sm border border-gray-400 outline-none',
+		'rounded-lg border border-gray-400 p-2 text-sm outline-none transition duration-200',
 		hasError ? 'border-red-500' : 'focus:ring-1 focus:ring-primary',
-		className
+		className,
 	)
-
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const formattedInput = maskCurrencyOnChange(event.target.value)
-
-		setInputData(formattedInput)
-	}
-
-	const handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
-		const formattedInput = maskCurrencyOnBlur(event.target.value)
-
-		setInputData(formattedInput)
-	}
 	
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const valueWithoutAlphaCaracters = mask.removeAlphaCharacters(event.target.value)
+		const normalizedValue = mask.normalizeValue(valueWithoutAlphaCaracters)
+
+		onChange(normalizedValue)
+	}
+
+	const inputValue = value?.match(/\d/g) ? mask.formatValue(value) : ''
+
 	return (
 		<input 
 			type="text"
-			value={inputData} 
 			className={inputClassName}
 			onChange={handleInputChange}
-			onBlur={handleInputBlur}
+			value={inputValue}
+			ref={ref}
 			{...rest}
 		/>
 	)
 }
+
+export default forwardRef(CurrencyInput)

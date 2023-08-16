@@ -1,22 +1,15 @@
-export function maskCurrencyOnChange(input: string) {
-	let formattedInput = input
-		.replace(/\D/g, '')
-		.replace(/^0/, '')
-		.replace(/R\$(?=)/, '')
-		.replace(/(\d+)(\d{2})$/, '$1,$2')
-		.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-
-	if (formattedInput.match(/\d/))
-		formattedInput = `R$ ${formattedInput}`
-
-	return formattedInput
+export function removeAlphaCharacters(value: string)  {
+	return value.replace(/\D/g, '')
 }
 
-export function maskCurrencyOnBlur(input: string) {
-	const [, value]  = input.split(/\s+/)
+export function normalizeValue(value: string) {
+	return (parseFloat(value) / 100).toFixed(2)
+}
 
-	if (value?.length === 1 || value?.length === 2) 
-		return `${input},00`
-
-	return input 
+export function formatValue(value: string) {
+	return new Intl.NumberFormat('pt-br', {
+		style: 'currency',
+		currency: 'BRL',
+		minimumFractionDigits: 2
+	}).format(parseFloat(value))
 }
