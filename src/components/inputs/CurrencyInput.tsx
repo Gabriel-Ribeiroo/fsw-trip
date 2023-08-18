@@ -26,7 +26,7 @@ CurrencyInput({ onChange, value, className, hasError = false, ...rest }: Props, 
 		onChange(normalizedValue)
 	}
 
-	const inputValue = value?.match(/\d/g) ? mask.formatValue(value) : ''
+	const inputValue = value?.match(/[1-9]/g) ? mask.formatValue(value) : ''
 
 	return (
 		<input 
