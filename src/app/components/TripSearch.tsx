@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import TextInput from '@/components/inputs/TextInput'
 import DateInput from '@/components/inputs/DateInput'
 import CurrencyInput from '@/components/inputs/CurrencyInput'
@@ -14,12 +16,19 @@ export default function TripSearch() {
 	const { register, handleSubmit, control, formState: { errors } } = useForm<Form>({
 		resolver: zodResolver(schema)
 	})
+
+	const router = useRouter() 
 	
 	const onSubmit = (data: Form) => {
-		console.log(data)
+		const { location, initialDate, budget } = data
+		
+		router.push(`
+			/trips/search
+			${location ? `?location=${location}` : ''}
+			${initialDate ? `&initialDate=${initialDate}` : ''}
+			${budget ? `&budget=${budget}` : ''}
+		`)		
 	}
-
-	console.log('Att')
 
 	return (
 		<form className="flex flex-col gap-4">
@@ -41,7 +50,7 @@ export default function TripSearch() {
 						control={control}
 						render={({ field }) => (
 							<DateInput 
-								placeholderText="Primeira Data" 
+								placeholderText="A partir do dia" 
 								onChange={field.onChange}							
 								onBlur={field.onBlur}
 								selected={field.value}
