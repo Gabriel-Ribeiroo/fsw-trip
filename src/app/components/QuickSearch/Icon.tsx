@@ -8,16 +8,17 @@ interface Props  {
 
 export default function Icon({ icon, name }: Props) {
 	return (
-		<Link href={`/trips/search?location=${name}`} className="flex flex-col gap-1 items-center">
-			<Image 
-				width={35} 
-				height={35} 
-				src={icon} 
-				alt={name} 
-				className="cursor-pointer"
-			/>
+		<div className="flex flex-col gap-1 items-center">
+			<Link href={`/trips/search?location=${name}`}>
+				<Image 
+					width={35} 
+					height={35} 
+					src={icon} 
+					alt={name} 
+				/>
+			</Link>
 
 			<p>{name}</p>
-		</Link>
+		</div>
 	)
 }
