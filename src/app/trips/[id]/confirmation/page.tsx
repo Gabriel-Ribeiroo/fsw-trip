@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react'
 import { format } from 'date-fns'
 import { Trip } from '@prisma/client'
 import { toast } from 'react-toastify'
+import { loadStripe } from '@stripe/stripe-js'
 import ptBR from 'date-fns/locale/pt-BR'
 
 interface Props {
@@ -21,35 +22,42 @@ interface Props {
 
 export default function TripConfirmation({ params: { id } }: Props) {
 	const [trip, setTrip] = useState<Trip | null>(null)
-	const [totalPrice, setTotalPrice] = useState<number>(0)
+	const [totalPaid, setTotalPaid] = useState<number>(0)
 
 	const router = useRouter()
 
-	const { status, data } = useSession()
+	const { status } = useSession()
 
 	const searchParams = useSearchParams()
 
 	const startDate = new Date(searchParams.get('startDate') as string)
 	const endDate = new Date(searchParams.get('endDate') as string) 
-	const guest = parseInt(searchParams.get('guests') as string)
+	const guest = Number(searchParams.get('guests') as string)
 
-	const handleBuyClick = async () => {
-		const request = await fetch('http://localhost:3000/api/trip/reservation', {
+	const handleBuyClick = async () => {		
+		const request = await fetch('http://localhost:3000/api/payment', {
 			method: 'POST',
 			body: JSON.stringify({
-				userId: (data?.user as any).id,
-				totalPaid: totalPrice,
-				tripId: id, 
+				tripId: id,  
 				startDate, 
 				endDate,
-				guest
+				guest,
+				coverImage: trip?.coverImage,
+				totalPaid,
+				name: trip?.name,
+				description: trip?.description,
 			})
 		})
 
 		if (!request.ok)
 			return toast.error('Ocorreu um erro ao realizar a reserva!', { position: 'bottom-center' })
 
-		router.push('/')
+		const { sessionId } = await request.json()
+
+		const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!)
+
+		await stripe?.redirectToCheckout({ sessionId })
+
 		toast.success('Reserva realizada com sucesso!', { position: 'bottom-center' })
 	}
 
@@ -65,7 +73,8 @@ export default function TripConfirmation({ params: { id } }: Props) {
 				body: JSON.stringify({
 					tripId: id,
 					startDate,
-					endDate
+					endDate,
+					guest
 				})
 			})
 
@@ -77,7 +86,7 @@ export default function TripConfirmation({ params: { id } }: Props) {
 			}
 			
 			setTrip(response.trip)
-			setTotalPrice(response.totalPrice)
+			setTotalPaid(response.totalPaid)
 		} 
 
 		getTrip()
@@ -89,7 +98,7 @@ export default function TripConfirmation({ params: { id } }: Props) {
 		<main className="flex flex-col gap-2 container mx-auto p-2 flex-1">
 			<h1 className="font-semibold text-xl font-primary-darker">Sua viagem</h1>
 
-			<Card trip={trip} totalPrice={totalPrice} />
+			<Card trip={trip} totalPrice={totalPaid} />
 
 			<div className="flex flex-col gap-5 text-primary-darker">
 				<div>

@@ -8,13 +8,11 @@ interface RequestProps {
 	tripId: string  
 	startDate: string 
 	endDate: string
-	guests: number 
+	guest: number 
 }
 
 export async function POST(request: NextRequest) {
-	const { tripId, endDate, startDate, guests } = await request.json() as RequestProps
-
-	console.log(typeof guests)
+	const { tripId, endDate, startDate, guest } = await request.json() as RequestProps
 
 	const convertedStartDate = new Date(startDate)
 	const convertedEndDate = new Date(endDate)
@@ -28,13 +26,13 @@ export async function POST(request: NextRequest) {
 	if (!trip)
 	 	return NextResponse.json({ error: { code: 'TRIP_NOT_FOUND' } })
 
-	if (guests > trip.maxGuests)
+	if (guest > trip.maxGuests)
 		return NextResponse.json({ error: { code: 'GUESTS_EXCEED_LIMIT' } })
 
 	if (convertedStartDate > convertedEndDate)
 	 return NextResponse.json({ error: { code: 'INVALID_DATES' } })
 
-	if (guests <= 0)
+	if (guest <= 0)
 	 	return NextResponse.json({ error: { code: 'GUESTS_LESS_THAN_ONE' } })
  
 	if (isBefore(convertedStartDate, new Date(trip.startDate))) 
@@ -61,8 +59,8 @@ export async function POST(request: NextRequest) {
 	return NextResponse.json({
 		success: true,
 		trip,
-		totalPrice: calcReservationTotalPrice(
-			convertedStartDate, convertedStartDate, (trip.pricePerDay as unknown as number)
+		totalPaid: calcReservationTotalPrice(
+			convertedStartDate, convertedEndDate, (trip.pricePerDay as unknown as number)
 		)
 	})
 }
