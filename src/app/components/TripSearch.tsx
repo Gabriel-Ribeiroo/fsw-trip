@@ -31,8 +31,11 @@ export default function TripSearch() {
 	}
 
 	return (
-		<form className="flex flex-col gap-4">
-			<div className="flex flex-col gap-1">
+		<form 
+			className="flex flex-col gap-4 w-full max-w-[59.25rem] mx-auto rounded-md
+			md:p-4 md:flex-row justify-center md:bg-primary/25"
+		>
+			<div className="flex flex-col gap-1 w-full">
 				<TextInput 
 					placeholder="Onde você quer ir?" 
 					autoComplete="off" 
@@ -43,7 +46,7 @@ export default function TripSearch() {
 				{errors.location?.message && <ErrorMessage message={errors.location?.message} />}
 			</div>
 			
-			<div className="grid grid-cols-2 gap-4">
+			<div className="grid grid-cols-2 gap-4 w-full">
 				<div className="flex flex-col gap-1">
 					<Controller 
 						name="initialDate"
@@ -81,7 +84,12 @@ export default function TripSearch() {
 				</div>
 			</div>
 
-			<Button onClick={handleSubmit(onSubmit)}>Buscar</Button>
+			<Button 
+				className="md:w-1/2 md:self-start"
+				onClick={handleSubmit(onSubmit)} 
+			>
+				Buscar
+			</Button>
 		</form>
 	)
 }

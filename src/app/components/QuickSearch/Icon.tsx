@@ -18,7 +18,7 @@ export default function Icon({ icon, name }: Props) {
 				/>
 			</Link>
 
-			<p>{name}</p>
+			<p className="text-gray-400 text-sm sm:text-base">{name}</p>
 		</div>
 	)
 }

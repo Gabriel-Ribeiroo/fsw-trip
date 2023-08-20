@@ -5,9 +5,14 @@ import RecommendedTrips from './components/RecommendedTrips'
 export default function Home() {
 	return (
 		<>
-			<main className="container mx-auto p-3">
-				<div className="bg-search-area bg-cover">
-					<h1 className="text-center text-xl font-bold mb-3.5">
+			<main>
+				<div 
+					className="px-4 flex flex-col justify-center gap-2 h-64 
+					bg-search-area md:gap-5 md:h-80"
+				>
+					<h1 
+						className="text-center text-primary-darker text-xl font-semibold mb-3.5 md:text-4xl"
+					>
 						Encontre a sua próxima <span className="text-primary">viagem!</span>
 					</h1>
 
