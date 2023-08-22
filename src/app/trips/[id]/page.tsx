@@ -1,9 +1,9 @@
 import Image from 'next/image'
 
-import TripReservation from './components/TripReservation'
-import TripDescription from './components/TripDescription'
-import TripHighlights from './components/TripHighlights'
-import TripLocation from './components/TripLocation'
+import TripReservation from './_components/TripReservation'
+import TripDescription from './_components/TripDescription'
+import TripHighlights from './_components/TripHighlights'
+import TripLocation from './_components/TripLocation'
 
 import { prisma } from '@/scripts/prisma'
 import Country from '@/components/Country'

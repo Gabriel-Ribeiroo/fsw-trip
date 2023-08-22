@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-import UserReservationItem from './components/UserReservationItem'
+import UserReservationItem from './_components/UserReservationItem'
 import Button from '@/components/Button'
 
 import { prisma } from '@/scripts/prisma'

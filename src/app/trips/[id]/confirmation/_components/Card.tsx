@@ -1,7 +1,8 @@
 import Image from 'next/image'
 
-import { Trip } from '@prisma/client'
 import Country from '@/components/Country'
+
+import { Trip } from '@prisma/client'
 
 interface Props {
 	trip: Trip

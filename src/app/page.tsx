@@ -1,6 +1,6 @@
-import TripSearch from './components/TripSearch'
-import QuickSearch from './components/QuickSearch/QuickSearch'
-import RecommendedTrips from './components/RecommendedTrips'
+import TripSearch from './_components/TripSearch'
+import QuickSearch from './_components/QuickSearch/QuickSearch'
+import RecommendedTrips from './_components/RecommendedTrips'
 
 export default function Home() {
 	return (

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import Button from '@/components/Button'
-import Card from './components/Card'
+import Card from './_components/Card'
 
 import { useSession } from 'next-auth/react'
 import { format } from 'date-fns'
