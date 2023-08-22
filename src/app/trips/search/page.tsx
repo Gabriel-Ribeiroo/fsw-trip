@@ -23,20 +23,28 @@ export default async function Trips({ searchParams: { location, initialDate, bud
 	const trips: Trip[] = await request.json() 
 
 	return (
-		<main className="flex-1 flex flex-col items-center gap-5 mb-4">
-			<div className="flex flex-col gap-1 items-center">
-				<h1 className="text-xl text-primary-darker font-semibold">
+		<main className="flex-1 flex flex-col gap-5 my-4 px-2.5">
+			<div>
+				<h1 className="text-xl text-primary-darker font-semibold sm:text-4xl text-center">
 					Hospedagens encontradas
 				</h1>
 
-				{trips.length > 0 && <p className="text-dark">Listamos os melhores locais para você!</p>}
-				
-				{!trips.length && <p className="text-dark">Poxa, não encontramos nada por aqui =(</p>}
+				<p className="text-dark text-center">
+					{trips.length > 0 
+						? 'Listamos os melhores locais para você!' 
+						: 'Poxa, não encontramos nada por aqui =('
+					}
+				</p>
 			</div>
 			
-			{trips.map(trip => (
-				<TripItem key={trip.id} trip={trip} />
-			))}
+			<div 
+				className="grid grid-cols-1 justify-items-center gap-4 w-full mx-auto
+				max-w-[92.5rem] sm:grid-cols-2 min-[850px]:grid-cols-3 min-[1120px]:grid-cols-4"
+			>
+				{trips.map(trip => (
+					<TripItem key={trip.id} trip={trip} />
+				))}
+			</div>
 		</main>
 	)
 }
