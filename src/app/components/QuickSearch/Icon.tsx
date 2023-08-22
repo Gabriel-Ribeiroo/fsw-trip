@@ -11,8 +11,8 @@ export default function Icon({ icon, name }: Props) {
 		<div className="flex flex-col gap-1 items-center">
 			<Link href={`/trips/search?location=${name}`}>
 				<Image 
-					width={35} 
-					height={35} 
+					width={40} 
+					height={40} 
 					src={icon} 
 					alt={name} 
 				/>

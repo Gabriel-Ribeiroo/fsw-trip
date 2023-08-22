@@ -10,10 +10,10 @@ export default function QuickSearch() {
 			</div>
 
 			<div className="grid grid-cols-4 py-4 w-full max-w-[92.5rem] mx-auto">
-				<Icon name="Hotel" icon="/hotel-icon.png" />
-				<Icon name="Fazenda" icon="/farm-icon.png" />
-				<Icon name="Chalé" icon="/cottage-icon.png" />
-				<Icon name="Pousada" icon="/inn-icon.png" />
+				<Icon name="Hotel" icon="/hotel.svg" />
+				<Icon name="Fazenda" icon="/farm.svg" />
+				<Icon name="Chalé" icon="/cottage.svg" />
+				<Icon name="Pousada" icon="/inn.svg" />
 			</div>
 		</section>
 	)

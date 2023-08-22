@@ -14,7 +14,7 @@ export default function TripHighlights({ highlights }: Props) {
 			<div className="grid grid-cols-1 gap-y-3">
 				{highlights.map(highlight => (
 					<div className="flex items-center gap-1" key={uuidv4()}>
-						<Image src="/check-icon.png" alt={highlight} width={15} height={15} />
+						<Image src="/check.svg" alt={highlight} width={25} height={25} />
 						<p className="text-sm whitespace-nowrap">{highlight}</p>
 					</div>
 				))}
