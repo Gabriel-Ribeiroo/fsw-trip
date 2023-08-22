@@ -5,7 +5,7 @@ import TripDescription from './_components/TripDescription'
 import TripHighlights from './_components/TripHighlights'
 import TripLocation from './_components/TripLocation'
 
-import { prisma } from '@/scripts/prisma'
+import { prisma } from '@/lib/prisma'
 import Country from '@/components/Country'
 
 interface Props {

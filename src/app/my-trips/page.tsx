@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import UserReservationItem from './_components/UserReservationItem'
 import Button from '@/components/Button'
 
-import { prisma } from '@/scripts/prisma'
+import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 

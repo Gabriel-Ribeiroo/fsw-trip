@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import stripe from '@/lib/stripe'
-import { prisma } from '@/scripts/prisma'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
 	const signature = request.headers.get('stripe-signature')

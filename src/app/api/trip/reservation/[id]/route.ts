@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { prisma } from '@/scripts/prisma'
+import { prisma } from '@/lib/prisma'
 
 interface Props {
 	params: {
