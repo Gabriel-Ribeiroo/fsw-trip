@@ -33,8 +33,12 @@ export default async function MyTrips() {
 	const reservations = await getUserReservations((session.user as any)?.id)
 	
 	return (
-		<main className="flex flex-col gap-3.5 flex-1 p-4">
-			<h1 className="font-semibold text-xl">Minhas viagens</h1>			
+		<main className="flex flex-col gap-4 flex-1 p-4">
+			<h1 
+				className="font-semibold text-xl text-center text-primary-darker sm:text-3xl "
+			>
+				Minhas viagens
+			</h1>			
 
 			{reservations.length === 0 && (
 				<div className="flex flex-col gap-3.5 items-center justify-center flex-1">
@@ -48,9 +52,11 @@ export default async function MyTrips() {
 				</div>
 			)}
 
-			{reservations.map(reservation => (
-				<UserReservationItem reservation={reservation} />
-			))}		
+			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
+				{reservations.map(reservation => (
+					<UserReservationItem reservation={reservation} />
+				))}		
+			</div>
 		</main>
 	)
 }
