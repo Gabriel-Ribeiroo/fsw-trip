@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import Button from '@/components/Button'
 import Country from '@/components/Country'
@@ -10,6 +11,7 @@ import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { toast } from 'react-toastify'
 import ptBR from 'date-fns/locale/pt-BR'
+import { ImSpinner2 } from 'react-icons/im'
 
 interface Props {
 	reservation: Prisma.TripReservationGetPayload<{
@@ -22,16 +24,33 @@ export default function UserReservationItem({ reservation }: Props) {
 
 	const router = useRouter() 
 
+	const [isLoading, setIsLoading] = useState(false)
+
 	const handleDeleteClick = async () => {
-		const request = await fetch(`http://localhost:3000/api/trip/reservation/${reservation.id}`, {
-			method: 'DELETE'
-		})
+		setIsLoading(true)
 
-		if (!request.ok)
-			return toast.error('Ocorreu um erro ao cancelar a viagem!', { position: 'bottom-center' })
+		try {
+			const request = await fetch(`http://localhost:3000/api/trip/reservation/${reservation.id}`, {
+				method: 'DELETE'
+			})
 
-		toast.success('Reserva cancelada com sucesso!', { position: 'bottom-center' })
-		router.refresh()
+			if (!request.ok) {
+				toast.error('Ocorreu um erro ao cancelar a viagem!', { position: 'bottom-center' })
+			}
+
+			else {
+				toast.success('Reserva cancelada com sucesso!', { position: 'bottom-center' })
+				router.refresh()
+			}
+		} 
+		
+		catch (error) {
+			console.log(error)			
+		} 
+		
+		finally {
+			setIsLoading(false)
+		}
 	}
 	
 	return (
@@ -72,7 +91,14 @@ export default function UserReservationItem({ reservation }: Props) {
 					<p className="font-medium text-primary-darker">R$ {Number(reservation.totalPaid)}</p>
 				</div>
 
-				<Button variant="destructiveOutline" onClick={handleDeleteClick}>Cancelar</Button>
+				<Button 
+					onClick={handleDeleteClick}
+					variant="destructiveOutline" 
+					className="flex justify-center items-center gap-2.5"
+				>
+					{isLoading ? 'cancelando...' : 'cancelar'}
+					{isLoading && <ImSpinner2 className="animate-spin" />}
+				</Button>
 			</div>
 		</div>
 	)
