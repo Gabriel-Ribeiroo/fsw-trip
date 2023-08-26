@@ -54,7 +54,7 @@ export default async function MyTrips() {
 
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
 				{reservations.map(reservation => (
-					<UserReservationItem reservation={reservation} />
+					<UserReservationItem reservation={reservation} key={reservation.id} />
 				))}		
 			</div>
 		</main>
