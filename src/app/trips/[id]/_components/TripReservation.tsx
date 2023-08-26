@@ -12,6 +12,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import createDynamicSchema, { Form } from '@/schemas/reservation'
 import { calcReservationTotalPrice } from '@/utils/reservation'
+import { differenceInDays } from 'date-fns'
 
 interface Props {
 	trip: Trip
@@ -67,7 +68,15 @@ export default function TripReservation({ trip }: Props) {
 	}
 	
 	return (
-		<form className="flex flex-col gap-2 pb-10 border-b border-gray-400">
+		<form 
+			className="flex flex-col gap-2 pb-5 border-b border-gray-400 
+			lg:order-2 lg:p-5 lg:shadow-md lg:min-w-[23.75rem]
+			lg:rounded-md lg:border lg:border-gray-300"
+		>
+			<p className="hidden md:block">
+				<span className="font-semibold">R$ {Number(trip.pricePerDay)}</span> por dia				
+			</p>
+
 			<div className="grid grid-cols-2 gap-2">
 				<div className="flex flex-col gap-0.5">
 					<Controller 
@@ -80,7 +89,7 @@ export default function TripReservation({ trip }: Props) {
 								onBlur={field.onBlur}
 								selected={field.value}
 								minDate={trip.startDate}
-								maxDate={trip.endDate}
+								maxDate={endDate ?? trip.endDate}
 								hasError={!!errors.startDate}
 							/>
 						}
@@ -122,10 +131,13 @@ export default function TripReservation({ trip }: Props) {
 			</div>
 
 			<div className="flex justify-between">
-				<p className="font-medium text-sm text-primary-darker">Total: </p>
+				<p className="font-medium text-sm text-primary-darker">
+					Total {(startDate && endDate) && `(${differenceInDays(endDate, startDate)} noites)`}
+				</p>
+				
 				<p className="font-medium text-sm text-primary-darker">
 					R$ {(startDate && endDate) 
-						? calcReservationTotalPrice(startDate, endDate, (trip.pricePerDay as unknown as number))
+						? calcReservationTotalPrice(startDate, endDate, (Number(trip.pricePerDay)))
 						: '0'
 					}
 				</p>

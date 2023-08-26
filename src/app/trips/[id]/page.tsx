@@ -1,12 +1,10 @@
-import Image from 'next/image'
-
 import TripReservation from './_components/TripReservation'
 import TripDescription from './_components/TripDescription'
 import TripHighlights from './_components/TripHighlights'
 import TripLocation from './_components/TripLocation'
+import TripHeader from './_components/TripHeader'
 
 import { prisma } from '@/lib/prisma'
-import Country from '@/components/Country'
 
 interface Props {
 	params: {
@@ -28,28 +26,21 @@ export default async function TripDetails({ params: { id } }: Props) {
 	if (!trip) return null 
 
 	return (
-		<main className="container mx-auto flex flex-col gap-4">
-				<div className="relative w-full h-[18.75rem]">
-					<Image src={trip.coverImage} alt={trip.name} fill className="object-cover " />
-				</div>
+		<main className="w-full max-w-7xl mx-auto flex flex-col gap-4">
+			<TripHeader trip={trip} />
 
-				<div className="flex flex-col gap-4 px-3">
-					<section className="flex flex-col gap-1">
-						<h1 className="font-semibold text-xl text-primary-darker">{trip.name}</h1>
-
-						<Country code={trip.countryCode} location={trip.location} />
-
-						<p className="text-xs text-dark">
-							<span className="text-primary mr-1 font-medium">R$ {trip.pricePerDay.toString()}</span>
-							por dia
-						</p>
-					</section>
-
+			<div className="flex flex-col gap-8 lg:mt-10">
+				<div className="flex flex-col px-3 lg:items-start gap-4 lg:flex-row lg:gap-16">
 					<TripReservation trip={trip} />
-					<TripDescription description={trip.description} />
-					<TripHighlights highlights={trip.highlights} />
-					<TripLocation location={trip.location} />
+
+					<div className="flex flex-col gap-4 lg:order-1">
+						<TripDescription description={trip.description} />
+						<TripHighlights highlights={trip.highlights} />
+					</div>
 				</div>
+
+				<TripLocation location={trip.location} />
+			</div>
 		</main>
 	)
 }

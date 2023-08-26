@@ -9,15 +9,15 @@ interface Props {
 export default function TripLocation({ location }: Props) {
 	return (
 		<section className="flex flex-col gap-1 mb-5">
-			<h2 className="font-semibold text-primary-darker text-xl">Localização</h2>
+			<h2 className="font-semibold text-primary-darker text-xl px-3">Localização</h2>
 			
 			<div className="relative h-[16.875rem] w-full">
 				<Image src="/map-mobile.png" alt={location} fill className="object-cover" />
 			</div>
 
-			<h3 className="text-primary-darker font-semibold">{location}</h3>
+			<h3 className="text-primary-darker font-semibold px-3">{location}</h3>
 
-			<p className="mb-3 text-primary-darker">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione aspernatur dolor ipsam commodi pariatur. Quasi vero quis perferendis officia natus, accusantium asperiores esse consequuntur fugit, quas laborum eius aperiam impedit.</p>
+			<p className="mb-3 text-primary-darker px-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione aspernatur dolor ipsam commodi pariatur. Quasi vero quis perferendis officia natus, accusantium asperiores esse consequuntur fugit, quas laborum eius aperiam impedit.</p>
 
 			<Button>Ver no maps</Button>
 		</section>
