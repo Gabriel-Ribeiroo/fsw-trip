@@ -3,10 +3,11 @@ import Image from 'next/image'
 import Button from '@/components/Button'
 
 interface Props {
-	location: string  
+	location: string
+	locationDescription: string   
 }
 
-export default function TripLocation({ location }: Props) {
+export default function TripLocation({ location, locationDescription }: Props) {
 	return (
 		<section className="flex flex-col gap-1 mb-5">
 			<h2 className="font-semibold text-primary-darker text-xl px-3">Localização</h2>
@@ -17,7 +18,7 @@ export default function TripLocation({ location }: Props) {
 
 			<h3 className="text-primary-darker font-semibold px-3">{location}</h3>
 
-			<p className="mb-3 text-primary-darker px-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione aspernatur dolor ipsam commodi pariatur. Quasi vero quis perferendis officia natus, accusantium asperiores esse consequuntur fugit, quas laborum eius aperiam impedit.</p>
+			<p className="mb-3 text-primary-darker px-3">{locationDescription}</p>
 
 			<Button>Ver no maps</Button>
 		</section>

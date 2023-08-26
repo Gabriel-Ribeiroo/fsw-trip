@@ -39,7 +39,7 @@ export default async function TripDetails({ params: { id } }: Props) {
 					</div>
 				</div>
 
-				<TripLocation location={trip.location} />
+				<TripLocation location={trip.location} locationDescription={trip.locationDescription}/>
 			</div>
 		</main>
 	)
