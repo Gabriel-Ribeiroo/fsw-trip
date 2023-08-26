@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-	previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -9,20 +9,23 @@ datasource db {
 }
 
 model Trip {
-  id           String            @id @default(uuid())
-  name         String
-  location     String
-  description  String
-  coverImage   String
-  imagesUrl    String[]
-  highlights   String[]
-  startDate    DateTime
-  endDate      DateTime
-  pricePerDay  Decimal           @db.Decimal(8, 2)
-  maxGuests    Int
-  reservations TripReservation[]
-  countryCode  String
-  recommended  Boolean           @default(false)
+  id                  String            @id @default(uuid())
+  name                String
+  location            String
+  description         String
+  coverImage          String
+  locationDescription String
+  latitude            Float
+  longitude           Float
+  imagesUrl           String[]
+  highlights          String[]
+  startDate           DateTime
+  endDate             DateTime
+  pricePerDay         Decimal           @db.Decimal(8, 2)
+  maxGuests           Int
+  reservations        TripReservation[]
+  countryCode         String
+  recommended         Boolean           @default(false)
 }
 
 model TripReservation {
