@@ -14,7 +14,7 @@ interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> 
 function 
 CurrencyInput({ onChange, value, className, hasError = false, ...rest }: Props, ref: Ref<HTMLInputElement>) {
 	const inputClassName = twMerge(
-		'rounded-lg border border-gray-400 p-2 text-sm outline-none transition duration-200',
+		'rounded-md border border-gray-400 p-2 outline-none transition duration-200',
 		hasError ? 'border-red-500' : 'focus:ring-1 focus:ring-primary',
 		className,
 	)

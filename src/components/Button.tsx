@@ -7,7 +7,7 @@ import { tv, type VariantProps } from 'tailwind-variants'
 import { Slot } from '@radix-ui/react-slot'
 
 const button = tv({
-	base: 'rounded-lg py-1.5 px-2 font-medium',
+	base: 'flex justify-center items-center gap-2 rounded-md p-2 font-medium',
 	variants: {
 		variant: {
 			default: 'bg-primary text-white',
