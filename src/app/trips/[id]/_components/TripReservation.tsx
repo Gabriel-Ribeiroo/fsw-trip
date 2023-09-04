@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 
 import Button from '@/components/Button'
-import DateInput from '@/components/inputs/DateInput'
+import DatePicker from '@/components/inputs/DatePicker'
 import TextInput from '@/components/inputs/TextInput'
 import ErrorMessage from '@/components/ErrorMessage'
 
@@ -27,7 +27,7 @@ export default function TripReservation({ trip }: Props) {
 
 	const startDate = watch('startDate')
 	const endDate = watch('endDate')
-
+	
 	const onSubmit = async (data: Form) => {
 		const request = await fetch('http://localhost:3000/api/trip/check', {
 			method: 'POST',
@@ -47,7 +47,6 @@ export default function TripReservation({ trip }: Props) {
 		if (response.error?.code === 'INVALID_DATES')
 			return setError('startDate', { message: 'Data inicial maior do que final.' })
 
-
 		if (response.error?.code === 'GUESTS_LESS_THAN_ONE')
 			return setError('guests', { message: 'É necessário ao menos 1 hóspede' })
 
@@ -63,7 +62,10 @@ export default function TripReservation({ trip }: Props) {
 		}
 
 		router.push(`
-			/trips/${trip.id}/confirmation?startDate=${data.startDate.toISOString()}&endDate=${data.endDate.toISOString()}&guests=${data.guests}
+			/trips/${trip.id}
+			/confirmation?startDate=${data.startDate.toISOString()}
+			&endDate=${data.endDate.toISOString()}
+			&guests=${data.guests}
 		`)
 	}
 	
@@ -83,15 +85,14 @@ export default function TripReservation({ trip }: Props) {
 						name="startDate"
 						control={control}
 						render={({ field }) => 
-							<DateInput 
-								placeholderText="Data Inicial" 
-								onChange={field.onChange}
-								onBlur={field.onBlur}
+							<DatePicker 
+								placeholder="Data Inicial" 
+								onDayClick={field.onChange}
 								selected={field.value}
-								minDate={trip.startDate}
-								maxDate={endDate ?? trip.endDate}
-								hasError={!!errors.startDate}
-							/>
+								fromDate={new Date(trip.startDate.getTime() + 24 * 60 * 60 * 1000)}
+								toDate={endDate || trip.endDate}
+								hasError={!!errors.startDate?.message}
+							/> 
 						}
 					/>
 					
@@ -103,14 +104,13 @@ export default function TripReservation({ trip }: Props) {
 						name="endDate"
 						control={control}
 						render={({ field }) => 
-							<DateInput 
-								placeholderText="Data Final" 
-								onChange={field.onChange}
-								onBlur={field.onBlur}
+							<DatePicker 
+								placeholder="Data Final" 
+								onDayClick={field.onChange}
 								selected={field.value}
-								minDate={startDate ?? trip.startDate}
-								maxDate={trip.endDate}
-								hasError={!!errors.endDate} 
+								hasError={!!errors.endDate?.message}
+								fromDate={startDate || trip.startDate}
+								toDate={trip.endDate}
 							/>
 						}
 					/>

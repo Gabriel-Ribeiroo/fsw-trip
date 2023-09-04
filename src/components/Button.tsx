@@ -1,6 +1,6 @@
 'use client'
 
-import type { ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes, type Ref, forwardRef } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 import { tv, type VariantProps } from 'tailwind-variants'
@@ -15,6 +15,10 @@ const button = tv({
 			defaultOutline: 'text-primary border border-primary',
 			destructiveOutline: 'border border-red-500 text-red-500',
 		}
+	},
+
+	defaultVariants: {
+		variant: 'default'
 	}
 })
 
@@ -24,14 +28,17 @@ interface Props
 	asChild?: boolean
 }
 
-export default function 
-Button({ className, asChild = false, variant = 'default', ...rest }: Props) {
+function 
+Button({ className, variant, asChild = false, ...rest }: Props, ref: Ref<HTMLButtonElement>) {
 	const Comp = asChild ? Slot : 'button'
 	
 	return (
 		<Comp
 			className={twMerge(button({ variant }), className)}
+			ref={ref}
 			{...rest}
 		/>
 	)
 }
+
+export default forwardRef(Button) 
