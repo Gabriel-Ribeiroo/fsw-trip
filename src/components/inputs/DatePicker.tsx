@@ -24,11 +24,12 @@ export default function DatePicker({ placeholder, hasError = false, ...rest }: P
       <Popover.Trigger asChild>
         <Button
 					className={cn(
-						`justify-between font-normal transition duration-200 bg-white border border-gray-400`,
+						`justify-between font-normal transition duration-200 bg-white 
+						text-black border border-gray-400`,
 						!rest.selected && 'text-gray-400',
           	hasError 
 							? 'ring-1 ring-red-500 border-none' 
-							: 'data-[state=open]:ring-1 data-[state=open]:ring-primary data-[state=open]:border-none'
+							: 'data-[state=open]:ring-1 data-[state=open]:ring-primary'
           )}
         >
           {rest.selected ? format(rest.selected, "y'/'MM'/'dd") : <span>{placeholder ?? 'Data'}</span>}
