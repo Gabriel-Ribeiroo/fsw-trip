@@ -4,14 +4,16 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import Button from '@/components/Button'
-import Country from '@/components/Country'
 
+import Country from '@/components/Country'
+import Button from '@/components/Button'
+import * as AlertDialog from '@/components/ui/AlertDialog'
+
+import { Loader2 } from 'lucide-react'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { toast } from 'react-toastify'
 import ptBR from 'date-fns/locale/pt-BR'
-import { ImSpinner2 } from 'react-icons/im'
 
 interface Props {
 	reservation: Prisma.TripReservationGetPayload<{
@@ -34,25 +36,18 @@ export default function UserReservationItem({ reservation }: Props) {
 				method: 'DELETE'
 			})
 
-			if (!request.ok) {
-				toast.error('Ocorreu um erro ao cancelar a viagem!', { position: 'bottom-center' })
-			}
-
-			else {
+			if (!request.ok) 
+				return toast.error('Ocorreu um erro ao cancelar a viagem!', { position: 'bottom-center' })
+			
 				toast.success('Reserva cancelada com sucesso!', { position: 'bottom-center' })
 				router.refresh()
-			}
 		} 
 		
 		catch (error) {
 			console.log(error)			
 		} 
-		
-		finally {
-			setIsLoading(false)
-		}
 	}
-	
+
 	return (
 		<div className="border p-3.5 border-primary-lighter rounded-lg shadow-lg">
 			<div className="flex items-center gap-3 pb-6 border-b border-gray-400">
@@ -91,15 +86,33 @@ export default function UserReservationItem({ reservation }: Props) {
 					<p className="font-medium text-primary-darker">R$ {Number(reservation.totalPaid)}</p>
 				</div>
 
-				<Button 
-					onClick={handleDeleteClick}
-					variant="destructiveOutline" 
-					className="flex justify-center items-center gap-2.5"
-				>
-					{isLoading ? 'cancelando...' : 'cancelar'}
-					{isLoading && <ImSpinner2 className="animate-spin" />}
-				</Button>
-			</div>
+			<AlertDialog.Root>
+				<AlertDialog.Trigger asChild>
+					<Button variant="destructiveOutline">Cancelar Viagem</Button>
+				</AlertDialog.Trigger>
+
+				<AlertDialog.Content>
+					<AlertDialog.Header>
+						<AlertDialog.Title className="text-primary-darker">Você tem certeza?</AlertDialog.Title>
+						<AlertDialog.Description>
+							Se você cancelar e depois tentar reservar novamente nessa mesma data, pode ser que você não consiga. 
+						</AlertDialog.Description>
+					</AlertDialog.Header>
+
+					<AlertDialog.Footer className="sm:space-x-0 gap-2">
+						<AlertDialog.Cancel>Cancelar</AlertDialog.Cancel>
+
+						<Button 
+							onClick={handleDeleteClick} 
+							variant="default"
+						>
+							{isLoading ? 'Cancelando' : 'Confirmar'}
+							{isLoading && <Loader2 className="animate-spin" />}
+						</Button>
+					</AlertDialog.Footer>
+				</AlertDialog.Content>
+			</AlertDialog.Root>
 		</div>
+	</div>
 	)
 }
