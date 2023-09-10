@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'react'
 
 import Button from './Button'
 
-import { AiOutlineGoogle } from 'react-icons/ai'
+import { Chrome } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { twMerge } from 'tailwind-merge'
 
@@ -25,7 +25,7 @@ export default function Login({ className, ...rest }: Props) {
 			</div>
 		
 			<Button onClick={() => signIn('google')}>
-				<AiOutlineGoogle size={20} />
+				<Chrome size={20} />
 				Google
 			</Button>
 		</div>
