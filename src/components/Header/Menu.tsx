@@ -10,7 +10,7 @@ import { LogIn, LogOut, UserCircle2, Plane, Menu as MenuIcon } from 'lucide-reac
 
 export default function Menu() {
 	const { status, data } = useSession()
-
+	
 	return (
 		<Dropdown.Root>
 			<Dropdown.Trigger>
@@ -19,17 +19,17 @@ export default function Menu() {
 				>
 					<MenuIcon className="opacity-70" />
 
-					{status === 'authenticated' && (
+					{data?.user.image && (
 						<Image 
-							src={data!.user!.image!} 
-							alt={data!.user!.name!} 
+							src={data.user.image} 
+							alt={data.user.name} 
 							width={30} 
 							height={30} 
 							className="rounded-full select-none" 
 						/>
 					)}
 
-					{['unauthenticated', 'loading'].includes(status) && (
+					{!data?.user.image && (
 						<UserCircle2 size={30} className="opacity-70" />
 					)}
 				</div>
@@ -37,27 +37,25 @@ export default function Menu() {
 
 			{status !== 'loading' && (
 				<Dropdown.Content className="w-52 right-2 relative">
-						<Dropdown.Label className="truncate">
-							{status === 'authenticated' && `Ola, ${data?.user?.name?.split(' ')[0]}!`}
-							{['loading', 'unauthenticated'].includes(status) && 'Olá, Visitante!'}
-						</Dropdown.Label>
+					<Dropdown.Label className="truncate">
+						{status === 'authenticated' && `Ola, ${data.user.name.split(' ')[0]}!`}
+						{['loading', 'unauthenticated'].includes(status) && 'Olá, Visitante!'}
+					</Dropdown.Label>
+
 					<Dropdown.Separator />
 
 					<Dropdown.Item className="font-medium">
 						{status === 'authenticated' && (
-							<>
-								<button 
-									onClick={() => signOut()} 
-									className="flex items-center gap-1.5 flex-1 text-start"
-								>
-									<LogOut size={16} />
-									<span className="flex-1">Log out</span>
-								</button>
-							</>
+							<button 
+								onClick={() => signOut()} 
+								className="flex items-center gap-1.5 flex-1 text-start"
+							>
+								<LogOut size={16} />
+								<span className="flex-1">Log out</span>
+							</button>
 						)}
 					
 						{status === 'unauthenticated' && (
-							
 							<Link href="/login" className="flex-1 flex gap-1.5">
 								<LogIn size={16} />
 								<span className="flex-1">Log in</span>
