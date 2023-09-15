@@ -3,7 +3,8 @@
 import { ReactNode } from 'react'
 
 import Auth from './Auth'
-import Toast from './Toast'
+
+import { Toaster } from '@/components/ui/Toaster'
 
 interface Props {
 	children: ReactNode
@@ -13,7 +14,7 @@ export default function Providers({ children }: Props) {
 	return (
 		<Auth>
 			{children}
-			<Toast/>
+			<Toaster />
 		</Auth>
 	)
 } 
