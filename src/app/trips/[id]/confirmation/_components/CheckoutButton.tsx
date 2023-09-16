@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Button from '@/components/Button'
 
 import { Trip } from '@prisma/client'
-import { toast } from 'react-toastify'
 import { loadStripe } from '@stripe/stripe-js'
 import { useSession } from 'next-auth/react'
 
@@ -21,7 +20,7 @@ export default function CheckoutButton({ trip, startDate, endDate, guest, totalP
 	const { status } = useSession()
 
 	const router = useRouter() 
-	
+
 	const handleBuyClick = async () => {		
 		if (status !== 'authenticated')
 			return router.push('/login')
@@ -40,10 +39,7 @@ export default function CheckoutButton({ trip, startDate, endDate, guest, totalP
 			})
 		})
 
-		if (!request.ok)
-			return toast.error('Ocorreu um erro ao realizar a reserva!', { position: 'bottom-center' })
-
-		const { sessionId } = await request.json()
+		const sessionId = await request.json()
 
 		const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!)
 

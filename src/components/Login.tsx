@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { HTMLAttributes } from 'react'
 
@@ -8,11 +9,12 @@ import Button from './Button'
 import TextInput from './inputs/TextInput'
 import ErrorMessage from './ErrorMessage'
 
-import { Chrome, Mail, Loader2 } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { twMerge } from 'tailwind-merge'
 import { useForm } from 'react-hook-form'
+import { useToast } from './ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Chrome, Mail, Loader2 } from 'lucide-react'
 import schema, { SchemaProps } from '@/schemas/login'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
@@ -23,19 +25,36 @@ export default function Login({ className, ...rest }: Props) {
 	})
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	
+
+	const { toast } = useToast()
+
+	const router = useRouter() 
+
 	const onSubmit = async (data: SchemaProps) => {
 		setIsSubmitting(true)
 
-		const logging = await signIn<'credentials'>('credentials', {
-			...data,  
+		const login = await signIn<'credentials'>('credentials', {
+			...data, 
 			redirect: false,
 		})
 
 		setIsSubmitting(false)
-		console.log(logging)
-	}
-	
+
+		if (login?.error) {
+			return toast({
+				title: 'Oopsss...',
+				variant: 'destructive',
+				description: login.error
+			})
+		}
+
+		toast({
+			title: 'Sucesso!',
+			description: 'login efetuado com sucesso (='
+		})
+
+		router.back() 
+	} 
 	return (
 		<div 
 			className={twMerge(
@@ -72,12 +91,12 @@ export default function Login({ className, ...rest }: Props) {
 
 				<Button>
 					<Mail size={20} />
-					{isSubmitting ? 'Entrando' : 'Email'}
+					{isSubmitting ? "Entrando" : "Email"}
 					{isSubmitting && <Loader2 size={18} className="animate-spin" />}
 				</Button>
 			</form>
 		
-			<Button onClick={() => signIn('google')}>
+			<Button onClick={() => signIn("google", { callbackUrl: "/" })}>
 				<Chrome size={20} />
 				Google
 			</Button>

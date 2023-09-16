@@ -1,9 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-
 
 import Country from '@/components/Country'
 import Button from '@/components/Button'
@@ -12,7 +10,7 @@ import * as AlertDialog from '@/components/ui/AlertDialog'
 import { Loader2 } from 'lucide-react'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
-import { toast } from 'react-toastify'
+import { useToast } from '@/components/ui/use-toast'
 import ptBR from 'date-fns/locale/pt-BR'
 
 interface Props {
@@ -24,28 +22,37 @@ interface Props {
 export default function UserReservationItem({ reservation }: Props) {
 	const { trip } = reservation
 
-	const router = useRouter() 
+	const { toast } = useToast() 
 
 	const [isLoading, setIsLoading] = useState(false)
 
 	const handleDeleteClick = async () => {
 		setIsLoading(true)
 
-		try {
-			const request = await fetch(`http://localhost:3000/api/trip/reservation/${reservation.id}`, {
-				method: 'DELETE'
-			})
+		const request = await fetch(`http://localhost:3000/api/trip/reservation/${reservation.id}`, {
+			method: 'DELETE'
+		})
 
-			if (!request.ok) 
-				return toast.error('Ocorreu um erro ao cancelar a viagem!', { position: 'bottom-center' })
-			
-				toast.success('Reserva cancelada com sucesso!', { position: 'bottom-center' })
-				router.refresh()
-		} 
-		
-		catch (error) {
-			console.log(error)			
-		} 
+		const response = await request.json() 
+
+		if (response.error) {
+			toast({
+				title: "Ooopss...",
+				variant: "destructive",
+				description: response.message,
+			})
+		}
+
+		else {
+			toast({
+				title: 'Sucesso',
+				description: "A reserva foi cancelada!"
+			})
+		}
+
+		setTimeout(() => {
+			window.location.reload() 
+		}, 2500)
 	}
 
 	return (

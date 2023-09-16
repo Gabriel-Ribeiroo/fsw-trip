@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { type HTMLAttributes, useState } from 'react'
 
 import Button from '@/components/Button'
@@ -13,6 +14,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import schema, { type FormProps } from '@/schemas/register'
 import { type UserRegistrationResponse } from '@/types/register'
+import { useToast } from './ui/use-toast'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 	className?: string 
@@ -24,7 +26,11 @@ export default function Register({ className, ...rest }: Props) {
 	})
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	
+
+	const router = useRouter()
+
+	const { toast } = useToast() 
+
 	const onSubmit = async (data: FormProps) => {
 		if (isSubmitting) return
 		
@@ -44,10 +50,17 @@ export default function Register({ className, ...rest }: Props) {
 		setIsSubmitting(false)
 
 		if (response.error) {
-			response.errors.forEach(error => (
+			return response.errors.forEach(error => (
 				setError(error.field, { message: error.message })
 			))
 		}
+
+		toast({
+			title: 'Sucesso!',
+			description: 'Registro efetuado com sucesso (='
+		})
+
+		router.push('/login')
 	}
 	
 	return (
