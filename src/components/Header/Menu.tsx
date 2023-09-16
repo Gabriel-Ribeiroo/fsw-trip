@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 
 import * as Dropdown from '@/components/ui/DropdownMenu'
-import { LogIn, LogOut, UserCircle2, Plane, Menu as MenuIcon } from 'lucide-react'
+import { LogIn, LogOut, UserCircle2, Plane, Fingerprint, Menu as MenuIcon } from 'lucide-react'
 
 export default function Menu() {
 	const { status, data } = useSession()
@@ -63,13 +63,22 @@ export default function Menu() {
 						)}
 					</Dropdown.Item>
 
+					{status === 'unauthenticated' && (
+						<Dropdown.Item className="font-medium">
+							<Link href="/register" className="flex-1 flex gap-1.5">
+								<Fingerprint size={16} />
+								<span className="flex-1">Registrar</span>
+							</Link>
+						</Dropdown.Item>
+					)}
+
 				{status === 'authenticated' && (
 					<Dropdown.Item className="font-medium">
 						<Link href="my-trips" className="flex flex-1 gap-1.5 items-center">
 							<Plane size={16} />
 							<span className="flex-1">Minhas viagens</span>
 						</Link>
-					</Dropdown.Item>
+					</Dropdown.Item>	
 				)}
 			</Dropdown.Content>
 			)}
