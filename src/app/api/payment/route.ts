@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 			guest, 
 			startDate, 
 			endDate,
-			userId: (userSession?.user as any)?.id,
+			userId: userSession?.user.id!,
 			totalPaid
 		},
 		line_items: [
