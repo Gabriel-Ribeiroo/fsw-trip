@@ -30,7 +30,7 @@ export default async function MyTrips() {
 	if (!session)
 		redirect('/')
 
-	const reservations = await getUserReservations((session.user as any)?.id)
+	const reservations = await getUserReservations(session.user.id)
 	
 	return (
 		<main className="flex flex-col gap-4 flex-1 p-4">
