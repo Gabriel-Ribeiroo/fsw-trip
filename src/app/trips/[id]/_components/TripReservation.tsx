@@ -13,6 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import createDynamicSchema, { Form } from '@/schemas/reservation'
 import { calcReservationTotalPrice } from '@/utils/reservation'
 import { differenceInDays } from 'date-fns'
+import { useToast } from '@/components/ui/use-toast'
+import type { ReservationResponse } from '@/types/reservation'
 
 interface Props {
 	trip: Trip
@@ -20,14 +22,16 @@ interface Props {
 
 export default function TripReservation({ trip }: Props) {
 	const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<Form>({
-		resolver: zodResolver(createDynamicSchema(trip.maxGuests)),
+		resolver: zodResolver(createDynamicSchema(trip.maxGuests, trip.startDate, trip.endDate)),
 	})
 
 	const router = useRouter() 
 
+	const { toast } = useToast()
+
 	const startDate = watch('startDate')
 	const endDate = watch('endDate')
-	
+
 	const onSubmit = async (data: Form) => {
 		const request = await fetch('http://localhost:3000/api/trip/check', {
 			method: 'POST',
@@ -39,26 +43,18 @@ export default function TripReservation({ trip }: Props) {
 			})
 		})
 
-		const response = await request.json()
+		const response: ReservationResponse = await request.json()
 
-		if (response.error?.code === 'GUESTS_EXCEED_LIMIT')
-			return setError('guests', { message: 'Limite de convidados excedido.' })
+		if (response.error) {
+			if (response.isAlert) {
+				return toast({
+					title: 'Ooopss...',
+					variant: "destructive",
+					description: response.message
+				})
+			}
 
-		if (response.error?.code === 'INVALID_DATES')
-			return setError('startDate', { message: 'Data inicial maior do que final.' })
-
-		if (response.error?.code === 'GUESTS_LESS_THAN_ONE')
-			return setError('guests', { message: 'É necessário ao menos 1 hóspede' })
-
-		if (response.error?.code === 'INVALID_START_DATE') 
-			return setError('startDate', { message: 'Data inválida.' })
-
-		if (response.error?.code === 'INVALID_END_DATE')
-			return setError('endDate', { message: 'Data inválida.' })
-
-		if (response.error?.code === 'TRIP_ALREADY_RESERVED') {
-			setError('startDate', { message: 'Data já reservada.' })
-			return setError('endDate', { message: 'Data já reservada.' })
+			return response.errors?.forEach(error => setError(error.field, { message: error.message }))
 		}
 
 		router.push(`
@@ -124,7 +120,7 @@ export default function TripReservation({ trip }: Props) {
 					type="number"
 					placeholder={`Número de Hóspedes (max: ${trip.maxGuests})`} 
 					hasError={!!errors.guests}
-					{...register('guests', { valueAsNumber: true })}
+					{...register("guests", { valueAsNumber: true })}
 				/>
 
 				{!!errors.guests?.message && <ErrorMessage message={errors.guests.message} />}
@@ -138,7 +134,7 @@ export default function TripReservation({ trip }: Props) {
 				<p className="font-medium text-sm text-primary-darker">
 					R$ {(startDate && endDate) 
 						? calcReservationTotalPrice(startDate, endDate, (Number(trip.pricePerDay)))
-						: '0'
+						: "0"
 					}
 				</p>
 			</div>

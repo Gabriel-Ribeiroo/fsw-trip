@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 		tripId,
 		startDate, 
 		endDate, 
-		guest, 
+		guests, 
 		totalPaid, 
 		coverImage, 
 		name, 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 		success_url: 'http://localhost:3000',
 		metadata: {
 			tripId,
-			guest, 
+			guests, 
 			startDate, 
 			endDate,
 			userId: userSession?.user.id!,

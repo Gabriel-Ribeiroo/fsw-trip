@@ -16,12 +16,12 @@ interface Props {
 	}
 }
 
-async function getTrip(tripId: string, guest: string, startDate: string, endDate: string) {
+async function getTrip(tripId: string, guests: string, startDate: string, endDate: string) {
 	const request = await fetch('http://localhost:3000/api/trip/check', {
 		method: 'POST', 
 		body: JSON.stringify({
 			tripId, 
-			guest: Number(guest),
+			guests: Number(guests),
 			startDate: new Date(startDate), 
 			endDate: new Date(endDate) 
 		})
@@ -68,7 +68,7 @@ export default async function TripConfirmation({
 				trip={trip} 
 				startDate={startDate} 
 				endDate={endDate} 
-				guest={guests}
+				guests={guests}
 				totalPaid={totalPaid}
 			/>
 		</main>

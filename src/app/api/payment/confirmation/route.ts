@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 				userId: session.metadata.userId,
 				tripId: session.metadata.tripId, 
 				totalPaid: Number(session.metadata.totalPaid),
-				guest: Number(session.metadata.guest)
+				guest: Number(session.metadata.guests)
 			}
 		})
 	}
