@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
 import { Poppins } from 'next/font/google'
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 
 import Header from '@/components/header/Header'
 import Footer from '@/components/Footer'
@@ -13,8 +14,10 @@ interface Props {
 	authModal: ReactNode
 }
 
-export const metadata = {
-	title: 'FSW Club'
+export const metadata: Metadata = {
+	title: 'FSW Club',
+	description: 'Planeje sua próxima viagem com facilidade! Descubra hotéis incríveis e reserve sua estadia perfeita conosco. Explore uma ampla variedade de opções de hospedagem e garanta uma viagem memorável.',
+	authors: [{ name: 'Gabriel', url: 'https://github.com/Gabriel-Ribeiroo' }],
 }
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800', '900'] })
