@@ -11,7 +11,7 @@ import '@/styles/globals.css'
 
 interface Props {
 	children: ReactNode
-	authModal: ReactNode
+	modal: ReactNode
 }
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800', '900'] })
 
-export default function RootLayout({ children, authModal }: Props) {
+export default function RootLayout({ children, modal }: Props) {
 	return (
 		<html lang="pt-br">
 			<body className={poppins.className}>
@@ -30,7 +30,7 @@ export default function RootLayout({ children, authModal }: Props) {
 					<div className="flex flex-col min-h-screen">
 						<Header />
 						{children}
-						{authModal}
+						{modal}
 						<Footer />
 					</div>
 				</Providers>
