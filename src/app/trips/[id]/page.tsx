@@ -3,6 +3,7 @@ import TripDescription from './_components/TripDescription'
 import TripHighlights from './_components/TripHighlights'
 import TripLocation from './_components/TripLocation'
 import TripHeader from './_components/TripHeader'
+import TripMap from './_components/TripMap'
 
 import { prisma } from '@/lib/prisma'
 
@@ -39,7 +40,12 @@ export default async function TripDetails({ params: { id } }: Props) {
 					</div>
 				</div>
 
-				<TripLocation location={trip.location} locationDescription={trip.locationDescription}/>
+				<TripLocation 
+					location={trip.location} 
+					locationDescription={trip.locationDescription} 
+				>
+					<TripMap longitude={trip.longitude} latitude={trip.latitude} />
+				</TripLocation>
 			</div>
 		</main>
 	)
