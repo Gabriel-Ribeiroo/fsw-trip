@@ -33,7 +33,7 @@ export default function TripReservation({ trip }: Props) {
 	const endDate = watch('endDate')
 
 	const onSubmit = async (data: Form) => {
-		const request = await fetch('http://localhost:3000/api/trip/check', {
+		const request = await fetch('/api/trip/check', {
 			method: 'POST',
 			body: JSON.stringify({
 				startDate: data.startDate,
