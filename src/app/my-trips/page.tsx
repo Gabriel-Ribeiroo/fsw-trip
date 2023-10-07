@@ -18,10 +18,7 @@ async function getUserReservations(id: string) {
 		}
 	})
 
-	if (reservations.length > 0)
-		return reservations
-
-	return []
+	return reservations
 }
 
 export default async function MyTrips() {
@@ -34,17 +31,11 @@ export default async function MyTrips() {
 	
 	return (
 		<main className="flex flex-col gap-4 flex-1 p-4">
-			<h1 
-				className="font-semibold text-xl text-center text-primary-darker sm:text-3xl "
-			>
-				Minhas viagens
-			</h1>			
-
 			{reservations.length === 0 && (
 				<div className="flex flex-col gap-3.5 items-center justify-center flex-1">
-					<p className="text-primary-darker font-medium text-xl text-center">
+					<h1 className="text-primary-darker font-medium text-xl text-center">
 						Você ainda não tem nenhuma viagem! )=
-					</p>
+					</h1>
 
 					<Button asChild className="text-center w-full max-w-xs">
 						<Link href="/">Reservar</Link>
@@ -52,11 +43,21 @@ export default async function MyTrips() {
 				</div>
 			)}
 
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
-				{reservations.map(reservation => (
-					<UserReservationItem reservation={reservation} key={reservation.id} />
-				))}		
-			</div>
+			{reservations.length > 0 && (
+				<>
+					<h1 
+						className="font-semibold text-xl text-center text-primary-darker sm:text-3xl "
+					>
+						Minhas viagens
+					</h1>	
+
+					<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
+						{reservations.map(reservation => (
+							<UserReservationItem reservation={reservation} key={reservation.id} />
+						))}		
+					</div>
+				</>
+			)}
 		</main>
 	)
 }
