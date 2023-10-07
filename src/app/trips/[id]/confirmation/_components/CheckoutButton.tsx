@@ -31,7 +31,7 @@ export default function CheckoutButton({ trip, startDate, endDate, guests, total
 
 		setIsLoading(true)
 
-		const request = await fetch('http://localhost:3000/api/payment', {
+		const request = await fetch('/api/payment', {
 			method: 'POST',
 			body: JSON.stringify({
 				tripId: trip.id,  

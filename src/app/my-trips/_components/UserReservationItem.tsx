@@ -29,7 +29,7 @@ export default function UserReservationItem({ reservation }: Props) {
 	const handleDeleteClick = async () => {
 		setIsLoading(true)
 
-		const request = await fetch(`http://localhost:3000/api/trip/reservation/${reservation.id}`, {
+		const request = await fetch(`/api/trip/reservation/${reservation.id}`, {
 			method: 'DELETE'
 		})
 
