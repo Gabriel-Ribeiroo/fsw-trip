@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default async function Trips({ searchParams: { location, initialDate, budget } }: Props) {	
-	const request = await fetch('/api/trip/search', {
+	const request = await fetch(`${process.env.HOST_URL}/api/trip/search`, {
 		method: 'POST',
 		body: JSON.stringify({
 			location,

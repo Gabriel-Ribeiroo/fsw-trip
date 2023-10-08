@@ -17,7 +17,7 @@ interface Props {
 }
 
 async function getTrip(tripId: string, guests: string, startDate: string, endDate: string) {
-	const request = await fetch('/api/trip/check', {
+	const request = await fetch(`${process.env.HOST_URL}/api/trip/check`, {
 		method: 'POST', 
 		body: JSON.stringify({
 			tripId, 
