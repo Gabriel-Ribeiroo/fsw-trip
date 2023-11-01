@@ -18,7 +18,7 @@ interface Props extends DayPickerBase {
 	selected: Date | undefined
 }
 
-export default function DatePicker({ placeholder, hasError = false, ...rest }: Props) {
+export default function DatePicker({ placeholder, className, hasError = false, ...rest }: Props) {
 	return (
     <Popover.Root>
       <Popover.Trigger asChild>
@@ -29,7 +29,8 @@ export default function DatePicker({ placeholder, hasError = false, ...rest }: P
 						!rest.selected && 'text-gray-400',
           	hasError 
 							? 'ring-1 ring-red-500 border-none' 
-							: 'data-[state=open]:ring-1 data-[state=open]:ring-primary'
+							: 'data-[state=open]:ring-1 data-[state=open]:ring-primary',
+						className
           )}
         >
           {rest.selected ? format(rest.selected, "y'/'MM'/'dd") : <span>{placeholder ?? 'Data'}</span>}

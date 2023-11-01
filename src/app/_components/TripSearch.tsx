@@ -72,6 +72,7 @@ export default function TripSearch() {
 						render={({ field }) => (
 							<DatePicker 
 								placeholder="Dia"		
+								className="text-base"
 								fromDate={new Date()}
 								selected={field.value}		
 								onDayClick={field.onChange}
@@ -85,7 +86,7 @@ export default function TripSearch() {
 			</div>
 
 			<Button 
-				className="md:w-1/2 md:self-start"
+				className="md:w-1/2 md:self-start text-base"
 				onClick={handleSubmit(onSubmit)} 
 			>
 				Buscar
